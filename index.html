@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Тест «Две опоры»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: one column, phone first. Live matrix on top, one situation below. Single dark look in brand colours (night steppe + gold). */
+:root{
+  --night:#0e1f39; --panel:#1a2c52; --line:#2e3f6e; --chip:#22356a;
+  --gold:#e0a93b; --gold-soft:#f3d48c;
+  --text:#f4f1e8; --muted:#a9b3d6;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:560px;margin:0 auto;padding-inline:18px;padding-block:22px 48px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.brand svg{width:26px;height:26px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,6vw,30px);line-height:1.2;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-size:18px;margin:0;line-height:1.3}
+.lead{color:var(--muted);margin:0}
+.matrix{position:relative;aspect-ratio:1/1;width:100%;max-width:100%;max-height:300px;margin:0 auto;border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;background:var(--line)}
+.q{display:flex;align-items:flex-start;padding:10px 12px;font-size:12px;font-weight:700;color:var(--muted);background:var(--panel);transition:background .5s,color .5s}
+.q.on{background:#3a3424;color:var(--gold-soft)}
+.q.br{justify-content:flex-end}.q.bot{align-items:flex-end}
+.axis{position:absolute;font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;pointer-events:none}
+.axis.x{left:50%;bottom:6px;transform:translateX(-50%)}
+.axis.y{left:50%;top:6px;transform:translateX(-50%)}
+.dot{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(224,169,59,.25),0 0 28px 8px rgba(224,169,59,.5);transition:left .7s cubic-bezier(.2,.8,.2,1),top .7s cubic-bezier(.2,.8,.2,1)}
+.card{background:var(--panel);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.label{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.stmt{font-size:19px;font-weight:700;line-height:1.35;margin:0;text-wrap:pretty}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts button{font:500 16px/1.4 var(--body);color:var(--text);text-align:left;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer}
+.opts button:hover{border-color:var(--gold)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold-soft);outline-offset:2px}
+.bar{height:6px;border-radius:6px;background:var(--chip);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .4s}
+.btn{display:block;text-align:center;text-decoration:none;font:700 16px var(--body);background:var(--gold);color:#1a1606;border:0;border-radius:14px;padding:15px 20px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.type{font-family:var(--display);font-size:clamp(24px,7vw,32px);color:var(--gold);margin:0;line-height:1.15}
+ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px}
+.note{font-size:14px;color:var(--muted);margin:0}
+.scale{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.scale button{font:700 15px var(--body);color:var(--text);background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:10px 0;cursor:pointer}
+.scale button[aria-pressed="true"]{background:var(--gold);color:#1a1606;border-color:var(--gold)}
+label{font-size:14px;font-weight:700}
+input,textarea{width:100%;font:16px var(--body);color:var(--text);background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+textarea{min-height:84px;resize:vertical}
+.field{display:flex;flex-direction:column;gap:6px}
+.phone{font-weight:700;color:var(--gold-soft);user-select:all}
+@media (max-width:380px){.scale{grid-template-columns:repeat(5,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body style="margin:0">
+<div class="wrap">
+  <div class="brand" aria-label="Две опоры">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 9h10M16 4v10M12.5 5.5l7 7M19.5 5.5l-7 7" stroke="currentColor" stroke-width="1.3"/><rect x="7" y="15" width="4" height="15" rx="1" fill="currentColor"/><rect x="21" y="15" width="4" height="15" rx="1" fill="currentColor"/></svg>
+    Две опоры
+  </div>
+
+  <div class="matrix" aria-label="Карта руководителя">
+    <div class="q" data-k="boss">Надсмотрщик</div>
+    <div class="q br" data-k="leader">Лидер баланса</div>
+    <div class="q bot" data-k="cold">Отстранённый</div>
+    <div class="q br bot" data-k="friend">Добрый друг</div>
+    <span class="axis y">↑ требовательность</span>
+    <span class="axis x">забота →</span>
+    <div class="dot" id="dot" style="left:50%;top:50%"></div>
+  </div>
+
+  <section id="intro" class="card">
+    <h1>Как вы поступаете, когда давят обстоятельства?</h1>
+    <p class="lead">8 рабочих ситуаций, 3 минуты. Правильных ответов нет. Выбирайте не то, как надо, а то, что вы на самом деле сделаете в первые пять минут, когда устали и горят сроки.</p>
+    <button class="btn" id="start">Начать тест</button>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="bar"><i id="prog"></i></div>
+    <div class="label" id="num"></div>
+    <p class="stmt" id="stmt"></p>
+    <div class="opts" id="opts"></div>
+  </section>
+
+  <section id="result" class="card" hidden>
+    <div class="label">Ваш стиль под давлением</div>
+    <p class="type" id="type"></p>
+    <p id="desc" style="margin:0"></p>
+    <div class="label">Два первых шага</div>
+    <ol class="steps" id="steps"></ol>
+    <p class="note">Это ваш взгляд на себя. Главный вопрос: где вас поставила бы ваша команда? Это показывает полная диагностика «Две опоры».</p>
+  </section>
+
+  <section id="lead" class="card" hidden>
+    <h2>Получите подробный разбор вашего типа</h2>
+    <p class="note">Ответьте на два вопроса — они помогут доработать программу. Ответы уйдут автору методики в WhatsApp вместе с вашим результатом.</p>
+    <div class="field">
+      <label id="lbl-pain">Насколько проблема ухода сильных людей знакома вашей компании?</label>
+      <div class="scale" id="pain" role="group" aria-labelledby="lbl-pain"></div>
+    </div>
+    <div class="field">
+      <label for="need">Что должно быть в программе, чтобы вы попробовали её с командой?</label>
+      <textarea id="need" placeholder="Например: короткие встречи, результат в цифрах, работа с руководителями отделов"></textarea>
+    </div>
+    <div class="field">
+      <label for="who">Как к вам обращаться и какая у вас компания?</label>
+      <input id="who" autocomplete="name" placeholder="Имя, компания">
+    </div>
+    <a class="btn" id="send" href="#" target="_blank" rel="noopener">Отправить в WhatsApp</a>
+    <p class="note">Если WhatsApp не открылся, напишите на номер <span class="phone">+7 778 156 06 84</span></p>
+    <button class="btn ghost" id="again">Пройти заново</button>
+  </section>
+</div>
+
+<script>
+// Each option: t = требовательность, c = забота (0 or 1). B=1/0, F=0/1, L=1/1, I=0/0.
+const Q=[
+ {s:"Сотрудник второй раз сорвал срок.",o:[
+  ["Разберу ситуацию при всей команде, чтобы другим было неповадно",1,0],
+  ["Промолчу и доделаю сам: у него сейчас непростой период",0,1],
+  ["Сегодня же поговорю наедине: что случилось и что меняем",1,1],
+  ["Не буду вмешиваться: взрослые люди, сам разберётся",0,0]]},
+ {s:"Сильный сотрудник просит повысить зарплату.",o:[
+  ["Отвечу, что все хотят больше, и попрошу сначала показать результат",1,0],
+  ["Соглашусь сразу, чтобы он не расстроился и не ушёл",0,1],
+  ["Договоримся, за какой результат и когда пересмотрим оплату",1,1],
+  ["Отложу разговор: может, вопрос сам отпадёт",0,0]]},
+ {s:"Команда предлагает идею, которая кажется вам слабой.",o:[
+  ["Сразу скажу, что не сработает, и объясню, как надо",1,0],
+  ["Разрешу попробовать, чтобы не обидеть, хотя не верю",0,1],
+  ["Задам вопросы, чтобы слабые места увидели сами, и решим вместе",1,1],
+  ["Скажу «подумаем» и больше к ней не вернусь",0,0]]},
+ {s:"Новичок через месяц работает медленнее, чем ожидали.",o:[
+  ["Предупрежу, что испытательный срок может не пройти",1,0],
+  ["Скажу «не переживай, всё придёт» и сниму часть задач",0,1],
+  ["Раз в неделю буду разбирать с ним, где он застревает",1,1],
+  ["Подожду конца испытательного срока и тогда решу",0,0]]},
+ {s:"Сотрудник сам пришёл с ошибкой, которая стоила компании денег.",o:[
+  ["Удержу часть суммы, чтобы запомнил",1,0],
+  ["Скажу «бывает» и закрою вопрос",0,1],
+  ["Поблагодарю, что пришёл сам, и разберём, как не повторить",1,1],
+  ["Поручу кому-нибудь исправить, сам вникать не буду",0,0]]},
+ {s:"Двое сотрудников в открытом конфликте.",o:[
+  ["Потребую прекратить и предупрежу обоих о последствиях",1,0],
+  ["Поговорю с каждым и постараюсь всех успокоить",0,1],
+  ["Соберу обоих, назову проблему прямо и договоримся о правилах",1,1],
+  ["Не вмешиваюсь: работа идёт, и ладно",0,0]]},
+ {s:"Вас неделю не будет на работе.",o:[
+  ["Попрошу ежедневные отчёты и буду звонить с проверками",1,0],
+  ["Скажу команде: отдохните немного без меня",0,1],
+  ["Заранее назначу владельца и срок каждой задачи",1,1],
+  ["Ничего особо не планирую: как-нибудь справятся",0,0]]},
+ {s:"Давний сотрудник или родственник работает всё хуже.",o:[
+  ["Сделаю замечание при всех: исключений нет",1,0],
+  ["Закрою глаза: столько лет вместе",0,1],
+  ["Скажу наедине честно, какая планка и чем помогу",1,1],
+  ["Тихо передам его задачи другим",0,0]]}
+];
+const T={
+ leader:{n:"Лидер баланса",d:"Под давлением вы держите обе опоры: требуете и заботитесь. Главный риск — разрыв между вашим взглядом и взглядом команды.",s:["Спросите двух сотрудников анонимно: что мне стоит делать чаще, а что реже?","Передайте одну важную задачу «владельцу» и не вмешивайтесь до срока."]},
+ boss:{n:"Надсмотрщик",d:"Под давлением побеждает требовательность. Работа идёт, пока вы рядом, а ошибки начинают прятать.",s:["На этой неделе начинайте каждый разговор один на один с вопроса: что тебе сейчас мешает?","На каждое замечание найдите одну конкретную благодарность — вслух и при команде."]},
+ friend:{n:"Добрый друг",d:"Под давлением побеждает забота. В команде тепло, но сроки и стандарты плывут, а сильные устают тянуть слабых.",s:["Выберите одну нарушенную договорённость и поговорите о ней наедине в течение суток.","Для каждой ключевой задачи запишите: кто владелец, какой результат и к какому сроку."]},
+ cold:{n:"Отстранённый",d:"Под давлением вы отходите в сторону, и команда работает сама по себе. Часто это не характер, а усталость.",s:["Выделите 30 минут и поговорите один на один с самым сильным сотрудником.","Сформулируйте одну цель команды на месяц и озвучьте её всем."]}
+};
+const PHONE="77781560684";
+const $=id=>document.getElementById(id);
+let i=0, ans=[], order=[], pain=null, result=null;
+const shuffle=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+function pos(){
+  if(!ans.length) return {t:.5,c:.5};
+  const n=ans.length;
+  return {t:ans.reduce((s,a)=>s+a[0],0)/n, c:ans.reduce((s,a)=>s+a[1],0)/n};
+}
+function kind(p){const H=.6;return p.t>=H&&p.c>=H?"leader":p.t>=H?"boss":p.c>=H?"friend":"cold"}
+function move(){
+  const p=pos();
+  $("dot").style.left=(10+p.c*80)+"%";
+  $("dot").style.top=(90-p.t*80)+"%";
+  const k=kind(p);
+  document.querySelectorAll(".q").forEach(q=>q.classList.toggle("on",ans.length>0&&q.dataset.k===k));
+  return k;
+}
+function show(){
+  $("num").textContent="Ситуация "+(i+1)+" из "+Q.length;
+  $("stmt").textContent=Q[i].s;
+  $("prog").style.width=(i/Q.length*100)+"%";
+  const box=$("opts");box.innerHTML="";
+  shuffle(Q[i].o).forEach(o=>{
+    const b=document.createElement("button");b.type="button";b.textContent=o[0];
+    b.onclick=()=>pick([o[1],o[2]]);box.appendChild(b);
+  });
+  box.querySelector("button").focus({preventScroll:true});
+}
+function pick(v){
+  ans.push(v);const k=move();i++;
+  if(i<Q.length){show();return}
+  $("prog").style.width="100%";
+  setTimeout(()=>finish(k),450);
+}
+function finish(k){
+  result=T[k];
+  $("quiz").hidden=true;$("result").hidden=false;$("lead").hidden=false;
+  $("type").textContent=result.n;$("desc").textContent=result.d;
+  $("steps").innerHTML="";result.s.forEach(t=>{const li=document.createElement("li");li.textContent=t;$("steps").appendChild(li)});
+  link();
+  $("result").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function link(){
+  const lines=["Здравствуйте! Прошёл тест «Две опоры».","Мой тип: "+(result?result.n:"—")];
+  if(pain) lines.push("Насколько знакома проблема: "+pain+" из 10");
+  const need=$("need").value.trim(); if(need) lines.push("Что нужно в программе: "+need);
+  const who=$("who").value.trim(); if(who) lines.push("Кто я: "+who);
+  lines.push("Хочу подробный разбор.");
+  $("send").href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(lines.join("\n"));
+}
+for(let n=1;n<=10;n++){
+  const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-pressed","false");
+  b.onclick=()=>{pain=n;$("pain").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));link()};
+  $("pain").appendChild(b);
+}
+$("need").addEventListener("input",link);$("who").addEventListener("input",link);
+$("start").onclick=()=>{$("intro").hidden=true;$("quiz").hidden=false;show()};
+$("again").onclick=()=>{i=0;ans=[];result=null;move();$("result").hidden=true;$("lead").hidden=true;$("quiz").hidden=false;show();window.scrollTo({top:0})};
+</script>
+
+</body>
+</html>
