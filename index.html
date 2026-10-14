@@ -3,233 +3,386 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Тест «Две опоры»</title>
+<title>Две опоры — экспресс-тест для руководителя</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* Layout: one column, phone first. Live matrix on top, one situation below. Single dark look in brand colours (night steppe + gold). */
+/* Layout: вопросы слева, справа «живая» схема модели (смысл → основы → опоры → единство), на телефоне схема и итог идут ниже */
 :root{
-  --night:#0e1f39; --panel:#1a2c52; --line:#2e3f6e; --chip:#22356a;
-  --gold:#e0a93b; --gold-soft:#f3d48c;
-  --text:#f4f1e8; --muted:#a9b3d6;
-  --display:"Unbounded","Arial Black",system-ui,sans-serif;
-  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
-  color-scheme:dark;
+  --bg:#edeff3; --surface:#ffffff; --ink:#1b2340; --muted:#5b6478; --line:#d5d9e2;
+  --gold:#b8862f; --gold-soft:#f3e6c9; --teal:#1f8a84; --teal-soft:#d6efec;
+  --rose:#b5524a; --rose-soft:#f6dcd8; --night:#1b2340; --on-night:#eef0f5; --on-night-muted:#c7cde0;
+  --q1:#e6e9ef; --on-gold:#1b2340; --gold-on-night:#e0b25c; --teal-on-night:#4cc9be;
+  --display:Unbounded,Manrope,"Segoe UI",Arial,sans-serif; --body:Manrope,"Segoe UI",Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
-*{box-sizing:border-box}
-body{background:var(--night);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5}
-.wrap{max-width:560px;margin:0 auto;padding-inline:18px;padding-block:22px 48px;display:flex;flex-direction:column;gap:18px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
-.brand svg{width:26px;height:26px}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,6vw,30px);line-height:1.2;margin:0;text-wrap:balance}
-h2{font-family:var(--display);font-size:18px;margin:0;line-height:1.3}
-.lead{color:var(--muted);margin:0}
-.matrix{position:relative;aspect-ratio:1/1;width:100%;max-width:100%;max-height:300px;margin:0 auto;border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;background:var(--line)}
-.q{display:flex;align-items:flex-start;padding:10px 12px;font-size:12px;font-weight:700;color:var(--muted);background:var(--panel);transition:background .5s,color .5s}
-.q.on{background:#3a3424;color:var(--gold-soft)}
-.q.br{justify-content:flex-end}.q.bot{align-items:flex-end}
-.axis{position:absolute;font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;pointer-events:none}
-.axis.x{left:50%;bottom:6px;transform:translateX(-50%)}
-.axis.y{left:50%;top:6px;transform:translateX(-50%)}
-.dot{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(224,169,59,.25),0 0 28px 8px rgba(224,169,59,.5);transition:left .7s cubic-bezier(.2,.8,.2,1),top .7s cubic-bezier(.2,.8,.2,1)}
-.card{background:var(--panel);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
-.label{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.stmt{font-size:19px;font-weight:700;line-height:1.35;margin:0;text-wrap:pretty}
-.opts{display:flex;flex-direction:column;gap:10px}
-.opts button{font:500 16px/1.4 var(--body);color:var(--text);text-align:left;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11162a; --surface:#1a2140; --ink:#eef0f5; --muted:#a3abc0; --line:#2c3558;
+    --gold:#e0b25c; --gold-soft:#3a3220; --teal:#4cc9be; --teal-soft:#173d43;
+    --rose:#f08f84; --rose-soft:#432528; --night:#0c1022; --on-night:#eef0f5; --on-night-muted:#c7cde0;
+    --q1:#232b4d; --on-gold:#1b2340; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11162a; --surface:#1a2140; --ink:#eef0f5; --muted:#a3abc0; --line:#2c3558;
+  --gold:#e0b25c; --gold-soft:#3a3220; --teal:#4cc9be; --teal-soft:#173d43;
+  --rose:#f08f84; --rose-soft:#432528; --night:#0c1022; --on-night:#eef0f5; --on-night-muted:#c7cde0;
+  --q1:#232b4d; --on-gold:#1b2340; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 16px 64px}
+@media (min-width:600px){.wrap{padding-inline:20px}}
+header{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+header svg{width:56px;height:56px;flex:none;color:var(--ink)}
+header .brand{font-family:var(--display);font-weight:700;font-size:22px}
+header .sub{color:var(--muted);font-size:15px}
+.hero{background:var(--night);color:var(--on-night);border-radius:22px;padding:36px 28px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(26px,4.4vw,44px);max-width:17ch;font-weight:700;position:relative}
+.hero p{max-width:58ch;color:var(--on-night-muted);margin:16px 0 0;position:relative}
+.hero .steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;position:relative}
+.hero .steps span{font-size:13px;letter-spacing:.04em;border:1px solid rgba(224,178,92,.45);color:#e0b25c;border-radius:999px;padding:5px 12px}
+.hero .steps span.t{border-color:rgba(76,201,190,.5);color:#4cc9be}
+.hero .orn{position:absolute;right:-30px;bottom:-40px;width:260px;opacity:.18}
+.grid{display:grid;grid-template-columns:1fr;gap:24px}
+.grid>*{min-width:0}
+@media (min-width:880px){.grid{grid-template-columns:1.2fr .95fr}.side{position:sticky;top:calc(20px + env(safe-area-inset-top,0px));align-self:start}}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 18px 18px;margin-bottom:12px;transition:border-color .2s}
+.q.done{border-color:color-mix(in srgb,var(--gold) 55%,var(--line))}
+.q .tag{display:inline-block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.q .tag b{color:var(--gold);font-weight:700}
+.q .tag.r b{color:var(--teal)}
+.q p{margin:0 0 14px;font-weight:700;font-size:18px}
+.opts{display:grid;gap:8px}
+.opts button{font:inherit;font-size:16px;line-height:1.4;text-align:left;padding:12px 14px 12px 44px;border-radius:12px;border:1px solid var(--line);background:var(--q1);color:var(--ink);cursor:pointer;position:relative;transition:background .15s,border-color .15s}
+.opts button::before{content:"";position:absolute;left:15px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;border:2px solid var(--muted)}
 .opts button:hover{border-color:var(--gold)}
-button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold-soft);outline-offset:2px}
-.bar{height:6px;border-radius:6px;background:var(--chip);overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .4s}
-.btn{display:block;text-align:center;text-decoration:none;font:700 16px var(--body);background:var(--gold);color:#1a1606;border:0;border-radius:14px;padding:15px 20px;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
-.type{font-family:var(--display);font-size:clamp(24px,7vw,32px);color:var(--gold);margin:0;line-height:1.15}
-ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px}
-.note{font-size:14px;color:var(--muted);margin:0}
-.scale{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
-.scale button{font:700 15px var(--body);color:var(--text);background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:10px 0;cursor:pointer}
-.scale button[aria-pressed="true"]{background:var(--gold);color:#1a1606;border-color:var(--gold)}
-label{font-size:14px;font-weight:700}
-input,textarea{width:100%;font:16px var(--body);color:var(--text);background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-textarea{min-height:84px;resize:vertical}
-.field{display:flex;flex-direction:column;gap:6px}
-.phone{font-weight:700;color:var(--gold-soft);user-select:all}
-@media (max-width:380px){.scale{grid-template-columns:repeat(5,1fr)}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.opts button[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold)}
+.opts button[aria-pressed="true"]::before{border-color:var(--gold);background:radial-gradient(circle,var(--gold) 0 45%,transparent 50%)}
+.opts button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}
+.panel h2{font-size:18px;margin-bottom:6px}
+.progress{color:var(--muted);font-size:14px;margin-bottom:8px}
+.bar{height:6px;border-radius:6px;background:var(--q1);overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--teal));transition:width .4s ease}
+.model{width:100%;height:auto;display:block;max-width:360px;margin:0 auto}
+.model text{font-family:var(--body)}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.scores div{background:var(--q1);border-radius:12px;padding:10px 12px;min-width:0}
+.scores b{display:block;font-size:20px;font-family:var(--display);font-variant-numeric:tabular-nums}
+.scores span{font-size:12px;color:var(--muted);display:block;hyphens:manual;overflow-wrap:anywhere}
+.scores .d b{color:var(--gold)} .scores .r b{color:var(--teal)}
+.result{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.rhead{background:var(--night);color:var(--on-night);padding:28px 24px;position:relative}
+.rhead p{margin:0;max-width:62ch;color:var(--on-night-muted)}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
+.rhead .eyebrow{color:var(--teal-on-night)}
+.type{font-family:var(--display);font-size:clamp(22px,3.4vw,32px);font-weight:700;color:var(--gold-on-night);margin:0 0 12px;line-height:1.2}
+.rgrid{display:grid;grid-template-columns:1fr;gap:4px 40px;padding:6px 22px 26px}
+.rgrid>*{min-width:0}
+@media (min-width:880px){.rgrid{grid-template-columns:1fr 1fr;padding:10px 32px 32px}}
+.block{margin-top:18px}
+.block h3{font-size:14px;margin-bottom:8px}
+.found{display:grid;gap:6px}
+.found div{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:15px}
+.chip{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.chip.s3{background:var(--teal-soft);color:var(--teal)}
+.chip.s2{background:var(--gold-soft);color:var(--gold)}
+.chip.s1{background:var(--rose-soft);color:var(--rose)}
+.ladder{list-style:none;padding:0;margin:0;display:flex;flex-direction:column-reverse;gap:4px}
+.ladder li{display:flex;align-items:baseline;gap:10px;padding:7px 12px;border-radius:10px;font-size:14px;color:var(--muted);border:1px dashed transparent}
+.ladder li b{font-family:var(--display);font-size:13px;min-width:74px;color:var(--ink);font-weight:500}
+.ladder li.on{border-color:var(--gold);background:var(--gold-soft);color:var(--ink)}
+.soft{font-size:14px;color:var(--muted);margin:8px 0 0}
+.recs{padding-left:22px;margin:0}
+.recs li{margin-bottom:10px}
+.recs li b{display:block}
+.note{background:var(--gold-soft);border-radius:14px;padding:14px 16px;margin-top:18px;font-size:15px}
+.cta{display:none;margin-top:16px;background:var(--gold);color:var(--on-gold);font-weight:700;text-align:center;text-decoration:none;padding:14px 18px;border-radius:12px}
+.cta:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.reset{font:inherit;background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 14px;margin-top:14px;cursor:pointer}
+footer{margin-top:36px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:18px}
+@media (prefers-reduced-motion:no-preference){
+  .fill{transition:height .6s cubic-bezier(.2,.8,.2,1), y .6s cubic-bezier(.2,.8,.2,1)}
+  .glow{transition:opacity .6s ease}
+  .result:not([hidden]){animation:rise .5s ease both}
+  @keyframes rise{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
 </style>
 
-</head>
-<body style="margin:0">
 <div class="wrap">
-  <div class="brand" aria-label="Две опоры">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 9h10M16 4v10M12.5 5.5l7 7M19.5 5.5l-7 7" stroke="currentColor" stroke-width="1.3"/><rect x="7" y="15" width="4" height="15" rx="1" fill="currentColor"/><rect x="21" y="15" width="4" height="15" rx="1" fill="currentColor"/></svg>
-    Две опоры
+  <header>
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="18" r="11" fill="none" stroke="#b8862f" stroke-width="3"/>
+      <path d="M24 10l16 16M40 10L24 26M21 18h22M32 7v22" stroke="#b8862f" stroke-width="2"/>
+      <rect x="14" y="30" width="7" height="28" rx="2" fill="currentColor"/>
+      <rect x="43" y="30" width="7" height="28" rx="2" fill="currentColor"/>
+      <path d="M17.5 31Q32 22 46.5 31" fill="none" stroke="currentColor" stroke-width="3"/>
+    </svg>
+    <div><div class="brand">Две опоры</div><div class="sub">Экспресс-тест для руководителя: 14 ситуаций, 4 минуты</div></div>
+  </header>
+
+  <section class="hero">
+    <h1>На чём держится ваше лидерство?</h1>
+    <p>Перед вами 14 рабочих ситуаций. Выбирайте то, что вы на самом деле делали за последние три месяца, а не то, как правильно. Схема справа будет достраиваться с каждым ответом.</p>
+    <div class="steps" aria-label="Уровни модели"><span>Высший смысл</span><span>3 основы</span><span>Доверие</span><span class="t">Ответственность</span><span class="t">Единство</span></div>
+    <svg class="orn" viewBox="0 0 200 120" aria-hidden="true"><path d="M100 110C100 60 60 40 40 55c-18 14-4 40 16 30 14-7 8-26-4-22M100 110c0-50 40-70 60-55 18 14 4 40-16 30-14-7-8-26 4-22" fill="none" stroke="#e0b25c" stroke-width="6" stroke-linecap="round"/></svg>
+  </section>
+
+  <div class="grid">
+    <main id="qs" aria-label="Вопросы теста"></main>
+    <aside class="side">
+      <div class="panel">
+        <h2>Ваша модель</h2>
+        <div class="progress" id="progress">Отвечено 0 из 14</div>
+        <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+        <svg class="model" viewBox="0 0 340 372" role="img" aria-label="Схема модели: высший смысл, единство, две опоры, три основы">
+          <defs>
+            <radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--gold)" stop-opacity=".9"/><stop offset="1" stop-color="var(--gold)" stop-opacity="0"/></radialGradient>
+          </defs>
+          <!-- Высший смысл -->
+          <circle class="glow" id="sunGlow" cx="170" cy="38" r="34" fill="url(#sun)" opacity=".15"/>
+          <circle cx="170" cy="38" r="13" fill="var(--surface)" stroke="var(--gold)" stroke-width="2.5"/>
+          <text x="170" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">Высший смысл</text>
+          <!-- Единство (арка) -->
+          <path d="M66 136 Q170 74 274 136" fill="none" stroke="var(--line)" stroke-width="12" stroke-linecap="round"/>
+          <path id="arch" d="M66 136 Q170 74 274 136" fill="none" stroke="var(--teal)" stroke-width="12" stroke-linecap="round" opacity="0" class="glow"/>
+          <text x="170" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">Единство</text>
+          <!-- Колонны -->
+          <rect x="70" y="142" width="56" height="150" rx="8" fill="var(--q1)" stroke="var(--line)"/>
+          <rect x="214" y="142" width="56" height="150" rx="8" fill="var(--q1)" stroke="var(--line)"/>
+          <rect class="fill" id="fillD" x="70" y="292" width="56" height="0" rx="8" fill="var(--gold)"/>
+          <rect class="fill" id="fillR" x="214" y="292" width="56" height="0" rx="8" fill="var(--teal)"/>
+          <text x="98" y="217" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" transform="rotate(-90 98 217)" paint-order="stroke" stroke="var(--q1)" stroke-width="3">Доверие</text>
+          <text x="242" y="217" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" transform="rotate(-90 242 217)" paint-order="stroke" stroke="var(--q1)" stroke-width="3">Ответственность</text>
+          <text x="170" y="214" text-anchor="middle" font-size="11" fill="var(--muted)">Д1–Д4</text>
+          <text x="170" y="230" text-anchor="middle" font-size="11" fill="var(--muted)">Р1–Р4</text>
+          <!-- Основы -->
+          <rect id="b0" x="40" y="300" width="82" height="34" rx="6" fill="var(--q1)" stroke="var(--line)"/>
+          <rect id="b1" x="129" y="300" width="82" height="34" rx="6" fill="var(--q1)" stroke="var(--line)"/>
+          <rect id="b2" x="218" y="300" width="82" height="34" rx="6" fill="var(--q1)" stroke="var(--line)"/>
+          <text x="81" y="321" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">Вверенное</text>
+          <text x="170" y="321" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink)">Чистота мотива</text>
+          <text x="259" y="321" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">Моя зона</text>
+          <text x="170" y="358" text-anchor="middle" font-size="11" fill="var(--muted)">Три основы</text>
+        </svg>
+        <div class="scores">
+          <div class="d"><b id="sD">—</b><span>Доверие</span></div>
+          <div class="r"><b id="sR">—</b><span>Ответ&shy;ствен&shy;ность</span></div>
+          <div><b id="sE">—</b><span>Единство</span></div>
+        </div>
+
+      </div>
+    </aside>
   </div>
 
-  <div class="matrix" aria-label="Карта руководителя">
-    <div class="q" data-k="boss">Надсмотрщик</div>
-    <div class="q br" data-k="leader">Лидер баланса</div>
-    <div class="q bot" data-k="cold">Отстранённый</div>
-    <div class="q br bot" data-k="friend">Добрый друг</div>
-    <span class="axis y">↑ требовательность</span>
-    <span class="axis x">забота →</span>
-    <div class="dot" id="dot" style="left:50%;top:50%"></div>
-  </div>
-
-  <section id="intro" class="card">
-    <h1>Как вы поступаете, когда давят обстоятельства?</h1>
-    <p class="lead">8 рабочих ситуаций, 3 минуты. Правильных ответов нет. Выбирайте не то, как надо, а то, что вы на самом деле сделаете в первые пять минут, когда устали и горят сроки.</p>
-    <button class="btn" id="start">Начать тест</button>
-  </section>
-
-  <section id="quiz" class="card" hidden>
-    <div class="bar"><i id="prog"></i></div>
-    <div class="label" id="num"></div>
-    <p class="stmt" id="stmt"></p>
-    <div class="opts" id="opts"></div>
-  </section>
-
-  <section id="result" class="card" hidden>
-    <div class="label">Ваш стиль под давлением</div>
-    <p class="type" id="type"></p>
-    <p id="desc" style="margin:0"></p>
-    <div class="label">Два первых шага</div>
-    <ol class="steps" id="steps"></ol>
-    <p class="note">Это ваш взгляд на себя. Главный вопрос: где вас поставила бы ваша команда? Это показывает полная диагностика «Две опоры».</p>
-  </section>
-
-  <section id="lead" class="card" hidden>
-    <h2>Получите подробный разбор вашего типа</h2>
-    <p class="note">Ответьте на два вопроса — они помогут доработать программу. Ответы уйдут автору методики в WhatsApp вместе с вашим результатом.</p>
-    <div class="field">
-      <label id="lbl-pain">Насколько проблема ухода сильных людей знакома вашей компании?</label>
-      <div class="scale" id="pain" role="group" aria-labelledby="lbl-pain"></div>
+  <section class="result" id="result" aria-live="polite" hidden>
+    <div class="rhead">
+      <p class="eyebrow">Ваш профиль</p>
+      <h2 class="type" id="type"></h2>
+      <p id="desc"></p>
     </div>
-    <div class="field">
-      <label for="need">Что должно быть в программе, чтобы вы попробовали её с командой?</label>
-      <textarea id="need" placeholder="Например: короткие встречи, результат в цифрах, работа с руководителями отделов"></textarea>
+    <div class="rgrid">
+      <div class="rcol">
+        <div class="block">
+          <h3>Три основы</h3>
+          <div class="found" id="found"></div>
+        </div>
+        <div class="block">
+          <h3>Единство команды</h3>
+          <p id="udesc" style="margin:0;font-size:15px"></p>
+        </div>
+        <div class="block">
+          <h3>Ради чего вы ведёте дело</h3>
+          <ol class="ladder" id="ladder"></ol>
+          <p class="soft" id="ldesc"></p>
+        </div>
+      </div>
+      <div class="rcol">
+        <div class="block">
+          <h3>С чего начать</h3>
+          <ol class="recs" id="steps"></ol>
+        </div>
+        <div class="note">Это взгляд на себя. Полная диагностика «Две опоры» показывает, как вас видит команда, и чаще всего главный разрыв прячется именно там.</div>
+        <a class="cta" id="cta" target="_blank" rel="noopener">Записаться на полную диагностику в WhatsApp</a>
+        <p class="wa-num" style="text-align:center;margin-top:10px;opacity:.75;font-size:14px;user-select:all">WhatsApp: +7 778 156 06 84</p>
+        <button class="reset" id="reset" type="button">Пройти заново</button>
+      </div>
     </div>
-    <div class="field">
-      <label for="who">Как к вам обращаться и какая у вас компания?</label>
-      <input id="who" autocomplete="name" placeholder="Имя, компания">
-    </div>
-    <a class="btn" id="send" href="#" target="_blank" rel="noopener">Отправить в WhatsApp</a>
-    <p class="note">Если WhatsApp не открылся, напишите на номер <span class="phone">+7 778 156 06 84</span></p>
-    <button class="btn ghost" id="again">Пройти заново</button>
   </section>
+
+  <footer>Методика «Две опоры». Автор — Нурпеисов Нурбек Жайлаубаевич.</footer>
 </div>
 
 <script>
-// Each option: t = требовательность, c = забота (0 or 1). B=1/0, F=0/1, L=1/1, I=0/0.
+// k — элемент модели; s — балл варианта (основы, опоры, единство: 1–3; высший смысл: ступень 1–5)
 const Q=[
- {s:"Сотрудник второй раз сорвал срок.",o:[
-  ["Разберу ситуацию при всей команде, чтобы другим было неповадно",1,0],
-  ["Промолчу и доделаю сам: у него сейчас непростой период",0,1],
-  ["Сегодня же поговорю наедине: что случилось и что меняем",1,1],
-  ["Не буду вмешиваться: взрослые люди, сам разберётся",0,0]]},
- {s:"Сильный сотрудник просит повысить зарплату.",o:[
-  ["Отвечу, что все хотят больше, и попрошу сначала показать результат",1,0],
-  ["Соглашусь сразу, чтобы он не расстроился и не ушёл",0,1],
-  ["Договоримся, за какой результат и когда пересмотрим оплату",1,1],
-  ["Отложу разговор: может, вопрос сам отпадёт",0,0]]},
- {s:"Команда предлагает идею, которая кажется вам слабой.",o:[
-  ["Сразу скажу, что не сработает, и объясню, как надо",1,0],
-  ["Разрешу попробовать, чтобы не обидеть, хотя не верю",0,1],
-  ["Задам вопросы, чтобы слабые места увидели сами, и решим вместе",1,1],
-  ["Скажу «подумаем» и больше к ней не вернусь",0,0]]},
- {s:"Новичок через месяц работает медленнее, чем ожидали.",o:[
-  ["Предупрежу, что испытательный срок может не пройти",1,0],
-  ["Скажу «не переживай, всё придёт» и сниму часть задач",0,1],
-  ["Раз в неделю буду разбирать с ним, где он застревает",1,1],
-  ["Подожду конца испытательного срока и тогда решу",0,0]]},
- {s:"Сотрудник сам пришёл с ошибкой, которая стоила компании денег.",o:[
-  ["Удержу часть суммы, чтобы запомнил",1,0],
-  ["Скажу «бывает» и закрою вопрос",0,1],
-  ["Поблагодарю, что пришёл сам, и разберём, как не повторить",1,1],
-  ["Поручу кому-нибудь исправить, сам вникать не буду",0,0]]},
- {s:"Двое сотрудников в открытом конфликте.",o:[
-  ["Потребую прекратить и предупрежу обоих о последствиях",1,0],
-  ["Поговорю с каждым и постараюсь всех успокоить",0,1],
-  ["Соберу обоих, назову проблему прямо и договоримся о правилах",1,1],
-  ["Не вмешиваюсь: работа идёт, и ладно",0,0]]},
- {s:"Вас неделю не будет на работе.",o:[
-  ["Попрошу ежедневные отчёты и буду звонить с проверками",1,0],
-  ["Скажу команде: отдохните немного без меня",0,1],
-  ["Заранее назначу владельца и срок каждой задачи",1,1],
-  ["Ничего особо не планирую: как-нибудь справятся",0,0]]},
- {s:"Давний сотрудник или родственник работает всё хуже.",o:[
-  ["Сделаю замечание при всех: исключений нет",1,0],
-  ["Закрою глаза: столько лет вместе",0,1],
-  ["Скажу наедине честно, какая планка и чем помогу",1,1],
-  ["Тихо передам его задачи другим",0,0]]}
+ {k:"VS",tag:"Высший смысл",q:"Если честно, моё дело сейчас существует прежде всего ради того, чтобы…",o:[
+   ["удержаться на плаву и закрыть обязательства",1],
+   ["люди росли, а дело приносило пользу и жило дольше меня",5],
+   ["всё работало чётко и было под моим контролем",2],
+   ["нам было хорошо работать вместе",4],
+   ["расти быстрее рынка и обогнать конкурентов",3]]},
+ {k:"O1",tag:"Основа · Вверенное",q:"Деньги компании, время людей, технику я трачу…",o:[
+   ["как свои: где-то щедро, где-то как получится",1],
+   ["бережнее, чем свои, и могу отчитаться за каждую крупную трату",3],
+   ["по бюджету, но на свои удобства как руководителя смотрю проще",2]]},
+ {k:"O2",tag:"Основа · Чистота мотива",q:"При мне хвалят сотрудника за успех, в который я тоже вложился. Я…",o:[
+   ["искренне радуюсь и добавляю, что ещё он сделал",3],
+   ["уточняю, какой была моя роль, чтобы было понятно",1],
+   ["молчу, но внутри немного задевает",2]]},
+ {k:"O3",tag:"Основа · Моя зона — усилие",q:"Мы сделали всё, что могли, но сделка сорвалась. В первую очередь я…",o:[
+   ["долго прокручиваю случившееся и виню себя",2],
+   ["ищу, кто подвёл",1],
+   ["разбираю, что было в нашей власти, делаю выводы и иду дальше",3]]},
+ {k:"D1",tag:"Опора «Доверие» · Правдивость",q:"Мы сорвали срок клиенту по своей вине. Я…",o:[
+   ["говорю как есть и сразу предлагаю, как исправим",3],
+   ["нахожу объяснение, в котором мы не так уж виноваты",1],
+   ["признаю, но смягчаю так, что суть теряется",2]]},
+ {k:"D2",tag:"Опора «Доверие» · Надёжность и верность",q:"Об ушедшем сотруднике я обычно говорю…",o:[
+   ["что без него стало только лучше",1],
+   ["по-доброму, а если захочет вернуться, двери открыты",3],
+   ["стараюсь не вспоминать о нём вовсе",2]]},
+ {k:"D3",tag:"Опора «Доверие» · Доброе мнение",q:"Мне пожаловались на сотрудника. Я…",o:[
+   ["начинаю молча присматривать за ним",2],
+   ["сначала проверяю факты и говорю с ним самим, потом решаю",3],
+   ["сразу принимаю меры: дыма без огня не бывает",1]]},
+ {k:"D4",tag:"Опора «Доверие» · Великодушие",q:"Сотрудник ошибся впервые и сам пришёл признаться. Я…",o:[
+   ["прощаю, но при случае напоминаю",2],
+   ["наказываю, чтобы другим было неповадно",1],
+   ["благодарю за честность и вместе разбираем, как исправить",3]]},
+ {k:"R1",tag:"Опора «Ответственность» · Самоотчёт",q:"Кто в команде может прямо сказать мне о моей ошибке?",o:[
+   ["есть люди, которым я сам дал на это право, и я их благодарю",3],
+   ["пара человек, но решаются редко",2],
+   ["по сути никто, да и не принято",1]]},
+ {k:"R2",tag:"Опора «Ответственность» · Совет",q:"Решение, принятое вместе с командой, оказалось ошибкой. Дальше я…",o:[
+   ["напоминаю, чья это была идея",2],
+   ["решаю, что впредь буду решать сам",1],
+   ["разбираем вместе и снова советуемся: у меня один голос",3]]},
+ {k:"R3",tag:"Опора «Ответственность» · Справедливость",q:"Близкий мне сотрудник нарушил правило, за которое другого я оштрафовал. Я…",o:[
+   ["ограничиваюсь устным замечанием",2],
+   ["применяю ту же меру, спокойно и наедине",3],
+   ["закрываю глаза: свой человек, не подведёт",1]]},
+ {k:"R4",tag:"Опора «Ответственность» · Терпение",q:"Сотрудник меняется медленнее, чем хотелось бы. Я…",o:[
+   ["договариваюсь с ним о маленьких шагах и отмечаю каждый",3],
+   ["перестаю ждать и делаю его работу сам",2],
+   ["через месяц начинаю искать замену",1]]},
+ {k:"E",tag:"Единство",q:"Два отдела третью неделю в обиде друг на друга. Я…",o:[
+   ["не вмешиваюсь: взрослые люди, разберутся",2],
+   ["свожу их вместе и помогаю неправой стороне выйти достойно",3],
+   ["выясняю, кто виноват, и наказываю",1]]},
+ {k:"VS",tag:"Высший смысл",q:"Вспомните три последних крупных решения. Чем вы руководствовались чаще всего?",o:[
+   ["чтобы вырасти и опередить",3],
+   ["чтобы навести порядок и держать всё под контролем",2],
+   ["что останется после меня: люди, качество, польза",5],
+   ["чтобы не потерять деньги и выжить",1],
+   ["чтобы сохранить людей и атмосферу",4]]}
 ];
-const T={
- leader:{n:"Лидер баланса",d:"Под давлением вы держите обе опоры: требуете и заботитесь. Главный риск — разрыв между вашим взглядом и взглядом команды.",s:["Спросите двух сотрудников анонимно: что мне стоит делать чаще, а что реже?","Передайте одну важную задачу «владельцу» и не вмешивайтесь до срока."]},
- boss:{n:"Надсмотрщик",d:"Под давлением побеждает требовательность. Работа идёт, пока вы рядом, а ошибки начинают прятать.",s:["На этой неделе начинайте каждый разговор один на один с вопроса: что тебе сейчас мешает?","На каждое замечание найдите одну конкретную благодарность — вслух и при команде."]},
- friend:{n:"Добрый друг",d:"Под давлением побеждает забота. В команде тепло, но сроки и стандарты плывут, а сильные устают тянуть слабых.",s:["Выберите одну нарушенную договорённость и поговорите о ней наедине в течение суток.","Для каждой ключевой задачи запишите: кто владелец, какой результат и к какому сроку."]},
- cold:{n:"Отстранённый",d:"Под давлением вы отходите в сторону, и команда работает сама по себе. Часто это не характер, а усталость.",s:["Выделите 30 минут и поговорите один на один с самым сильным сотрудником.","Сформулируйте одну цель команды на месяц и озвучьте её всем."]}
+const NAMES={O1:"Вверенное",O2:"Чистота мотива",O3:"Моя зона — усилие",D1:"Правдивость",D2:"Надёжность и верность",D3:"Доброе мнение",D4:"Великодушие",R1:"Самоотчёт",R2:"Совет",R3:"Справедливость",R4:"Терпение и постепенность",E:"Единство"};
+const RECS={
+ O1:["«Опись вверенного»","Выпишите, какие люди, деньги, время и доверие вам вверены, и что вы вернёте приумноженным к концу года."],
+ O2:["«Тест почерка»","На этой неделе публично назовите чужой вклад в общий успех и заметьте, что почувствовали."],
+ O3:["«Две колонки»","После ближайшей неудачи разделите лист на «в моей власти» и «вне моей власти». Действуйте по первой колонке, вторую отпустите."],
+ D1:["«Что про меня не скажут даже недоброжелатели?»","Ответьте одним предложением и подтвердите ответ одним неудобным, но честным разговором."],
+ D2:["Правило об ушедших","Договоритесь с командой: об ушедших без дурных слов, вернувшихся встречаем как своих. И выполните одно давно отложенное обещание."],
+ D3:["«Факт или приговор»","Перед любым решением по жалобе поговорите с самим человеком и проверьте факты. Доброе мнение о людях, осторожность в поручениях."],
+ D4:["Граница великодушия","В первый раз и при честном признании — великодушие и мягкое слово. Своё простить можно, прощать от имени клиента или коллеги нельзя."],
+ R1:["Вечерний самоотчёт","Пять минут вечером: что я сделал ради дела, а что ради себя? Где был строг к другим, а не к себе? Кого поднял, а кого остановил?"],
+ R2:["«Совет по правилам»","Перед следующим важным решением дайте высказаться команде, а свой голос дайте последним. Если прав оппонент, выиграли вы."],
+ R3:["«Санкция без гнева»","Пауза до остывания перед любым решением о человеке и одна мера для своих и чужих."],
+ R4:["План изменений по шагам","Договоритесь с человеком о трёх маленьких шагах на месяц и отмечайте каждый. Скорость меняем, но не останавливаемся."],
+ E:["«Правила единства»","Обида не дольше трёх дней, в команде есть примирители, о дележе успеха договариваемся до успеха."],
+ VS:["«Три вопроса»","С чем я пришёл? Чем могу помочь другим? Что оставлю после себя? Ответьте от руки, по одному предложению."]
 };
-const PHONE="77781560684";
-const $=id=>document.getElementById(id);
-let i=0, ans=[], order=[], pain=null, result=null;
-const shuffle=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
-function pos(){
-  if(!ans.length) return {t:.5,c:.5};
-  const n=ans.length;
-  return {t:ans.reduce((s,a)=>s+a[0],0)/n, c:ans.reduce((s,a)=>s+a[1],0)/n};
+const LADDER=[["Выжить","Как не закрыться?"],["Порядок","Как всё контролировать?"],["Успех","Как вырасти и обогнать?"],["Люди","Как нам быть вместе?"],["Целое","С чем я пришёл, чем помогу, что оставлю?"]];
+const WHATSAPP="77781560684"; // номер в формате 77001234567
+
+const ans=new Array(Q.length).fill(0);
+const qs=document.getElementById('qs');
+Q.forEach((q,i)=>{
+  const d=document.createElement('section');d.className='q';
+  const r=q.k[0]==='R'||q.k==='E'?' r':'';
+  const parts=q.tag.split(' · ');
+  d.innerHTML=`<div class="tag${r}"><b>${parts[0]}</b>${parts[1]?' · '+parts[1]:''}</div><p id="ql${i}">${i+1}. ${q.q}</p><div class="opts" role="group" aria-labelledby="ql${i}"></div>`;
+  const s=d.querySelector('.opts');
+  q.o.forEach(([t,v],j)=>{const b=document.createElement('button');b.type='button';b.id=`q${i}o${j}`;b.textContent=t;b.setAttribute('aria-pressed','false');
+    b.onclick=()=>{ans[i]=v;[...s.children].forEach(c=>c.setAttribute('aria-pressed',c===b?'true':'false'));d.classList.add('done');update(i);};s.appendChild(b);});
+  qs.appendChild(d);
+});
+const sc=k=>{const v=Q.map((q,i)=>q.k===k?ans[i]:0).filter(x=>x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;};
+const grp=p=>{const v=[1,2,3,4].map(n=>sc(p+n)).filter(x=>x!==null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;};
+const pct=x=>x===null?null:Math.round((x-1)/2*100);
+const STATE={3:["держит","s3"],2:["проседает","s2"],1:["требует внимания","s1"]};
+
+function update(last){
+  const n=ans.filter(x=>x>0).length;
+  document.getElementById('progress').textContent=`Отвечено ${n} из ${Q.length}`;
+  document.getElementById('barFill').style.width=(n/Q.length*100)+'%';
+  const d=grp('D'),r=grp('R'),e=sc('E'),vs=sc('VS');
+  document.getElementById('sD').textContent=d===null?'—':pct(d)+'%';
+  document.getElementById('sR').textContent=r===null?'—':pct(r)+'%';
+  document.getElementById('sE').textContent=e===null?'—':pct(e)+'%';
+  const setFill=(id,x)=>{const h=x===null?0:Math.max(12,(x-1)/2*150);const el=document.getElementById(id);el.setAttribute('height',h);el.setAttribute('y',292-h);};
+  setFill('fillD',d);setFill('fillR',r);
+  document.getElementById('arch').setAttribute('opacity',e===null?0:.25+.75*(e-1)/2);
+  document.getElementById('sunGlow').setAttribute('opacity',vs===null?.15:.25+.75*(vs-1)/4);
+  ['O1','O2','O3'].forEach((k,i)=>{const v=sc(k),b=document.getElementById('b'+i);
+    b.setAttribute('fill',v===null?'var(--q1)':v===3?'var(--teal-soft)':v===2?'var(--gold-soft)':'var(--rose-soft)');
+    b.setAttribute('stroke',v===null?'var(--line)':v===3?'var(--teal)':v===2?'var(--gold)':'var(--rose)');});
+  const res=document.getElementById('result');
+  if(n<Q.length){res.hidden=true;return;}
+
+  // Профиль опор
+  const diff=d-r;let head,desc;
+  const weakIn=p=>[1,2,3,4].map(x=>p+x).sort((a,b)=>sc(a)-sc(b))[0];
+  if(Math.abs(diff)<0.25){
+    head='Опоры в равновесии';
+    desc=(d+r)/2>=2.5?'Обе опоры держат: люди вам доверяют, и вы с них спрашиваете. Следующий шаг — проверить, видит ли команда то же самое.'
+      :'Опоры растут вровень, но пока не в полную силу. Начните с основ: именно они держат обе опоры.';
+  }else if(diff>0){
+    head='Сильнее опора «Доверие»';
+    desc=`Рядом с вами людям безопасно. Опора «Ответственность» отстаёт, и слабее всего в ней — «${NAMES[weakIn('R')]}». Без неё доброта со временем превращается в поблажки.`;
+  }else{
+    head='Сильнее опора «Ответственность»';
+    desc=`Вы умеете спрашивать и держать порядок. Опора «Доверие» отстаёт, и слабее всего в ней — «${NAMES[weakIn('D')]}». Без неё требования держатся на вашем присутствии.`;
+  }
+  document.getElementById('type').textContent=head;
+  document.getElementById('desc').textContent=desc;
+  document.getElementById('found').innerHTML=['O1','O2','O3'].map(k=>{const v=sc(k);return `<div><span>${NAMES[k]}</span><span class="chip ${STATE[v][1]}">${STATE[v][0]}</span></div>`;}).join('');
+  document.getElementById('udesc').textContent=e>=3?'Крепкое. Это и есть результат двух опор: люди помогают друг другу и быстро мирятся.'
+    :e>=2?'Держится, но обиды и споры могут тянуться дольше, чем нужно.'
+    :'Пока хрупкое. Единство вырастает само, когда работают обе опоры, и ему помогают простые правила.';
+
+  // Лестница смысла: мягко, без ярлыка
+  const step=Math.min(5,Math.max(1,Math.round(vs)));
+  document.getElementById('ladder').innerHTML=LADDER.map((l,i)=>`<li class="${i+1===step?'on':''}"><b>${l[0]}</b><span>${l[1]}</span></li>`).join('');
+  document.getElementById('ldesc').textContent=`Сейчас ваши решения чаще звучат как вопрос «${LADDER[step-1][1]}». Это не оценка и не уровень человека: ступени не отменяют друг друга, на верхних порядок и результат остаются, но становятся средством.`;
+
+  // Рекомендации: сначала слабое в отстающей опоре, затем основы, единство, остальное
+  const weakP=diff>0?'R':'D',strongP=weakP==='R'?'D':'R';
+  const order=[1,2,3,4].map(x=>weakP+x).concat(['O1','O2','O3','E'],[1,2,3,4].map(x=>strongP+x));
+  const pool=order.map((k,i)=>({k,v:sc(k),i})).filter(x=>x.v<3).sort((a,b)=>a.v-b.v||a.i-b.i);
+  const picks=[];
+  const add=k=>{if(!picks.includes(k)&&picks.length<3)picks.push(k);};
+  const firstWeak=pool.find(x=>x.k[0]===weakP); if(firstWeak)add(firstWeak.k);
+  const firstO=pool.find(x=>x.k[0]==='O'); if(firstO)add(firstO.k);
+  pool.forEach(x=>add(x.k));
+  if(step<=3)add('VS'); add('R1'); add('VS');
+  document.getElementById('steps').innerHTML=picks.slice(0,3).map(k=>`<li><b>${RECS[k][0]}</b>${RECS[k][1]}</li>`).join('');
+
+  const cta=document.getElementById('cta');
+  const weakest=pool.length?NAMES[pool[0].k]:'—';
+  if(WHATSAPP){cta.href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent('Здравствуйте! Я прошёл тест «Две опоры». Мой профиль: '+head+'. Доверие '+pct(d)+'%, ответственность '+pct(r)+'%, единство '+pct(e)+'%. Слабее всего: '+weakest+'. Хочу узнать о полной диагностике.');cta.style.display='block';}else cta.style.display='none';
+  const wasHidden=res.hidden;
+  res.hidden=false;
+  if(wasHidden&&last!==undefined){res.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
 }
-function kind(p){const H=.6;return p.t>=H&&p.c>=H?"leader":p.t>=H?"boss":p.c>=H?"friend":"cold"}
-function move(){
-  const p=pos();
-  $("dot").style.left=(10+p.c*80)+"%";
-  $("dot").style.top=(90-p.t*80)+"%";
-  const k=kind(p);
-  document.querySelectorAll(".q").forEach(q=>q.classList.toggle("on",ans.length>0&&q.dataset.k===k));
-  return k;
-}
-function show(){
-  $("num").textContent="Ситуация "+(i+1)+" из "+Q.length;
-  $("stmt").textContent=Q[i].s;
-  $("prog").style.width=(i/Q.length*100)+"%";
-  const box=$("opts");box.innerHTML="";
-  shuffle(Q[i].o).forEach(o=>{
-    const b=document.createElement("button");b.type="button";b.textContent=o[0];
-    b.onclick=()=>pick([o[1],o[2]]);box.appendChild(b);
-  });
-  box.querySelector("button").focus({preventScroll:true});
-}
-function pick(v){
-  ans.push(v);const k=move();i++;
-  if(i<Q.length){show();return}
-  $("prog").style.width="100%";
-  setTimeout(()=>finish(k),450);
-}
-function finish(k){
-  result=T[k];
-  $("quiz").hidden=true;$("result").hidden=false;$("lead").hidden=false;
-  $("type").textContent=result.n;$("desc").textContent=result.d;
-  $("steps").innerHTML="";result.s.forEach(t=>{const li=document.createElement("li");li.textContent=t;$("steps").appendChild(li)});
-  link();
-  $("result").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function link(){
-  const lines=["Здравствуйте! Прошёл тест «Две опоры».","Мой тип: "+(result?result.n:"—")];
-  if(pain) lines.push("Насколько знакома проблема: "+pain+" из 10");
-  const need=$("need").value.trim(); if(need) lines.push("Что нужно в программе: "+need);
-  const who=$("who").value.trim(); if(who) lines.push("Кто я: "+who);
-  lines.push("Хочу подробный разбор.");
-  $("send").href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(lines.join("\n"));
-}
-for(let n=1;n<=10;n++){
-  const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-pressed","false");
-  b.onclick=()=>{pain=n;$("pain").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));link()};
-  $("pain").appendChild(b);
-}
-$("need").addEventListener("input",link);$("who").addEventListener("input",link);
-$("start").onclick=()=>{$("intro").hidden=true;$("quiz").hidden=false;show()};
-$("again").onclick=()=>{i=0;ans=[];result=null;move();$("result").hidden=true;$("lead").hidden=true;$("quiz").hidden=false;show();window.scrollTo({top:0})};
+document.getElementById('reset').onclick=()=>{ans.fill(0);document.querySelectorAll('.opts button').forEach(b=>b.setAttribute('aria-pressed','false'));document.querySelectorAll('.q').forEach(q=>q.classList.remove('done'));update();window.scrollTo({top:0});};
 </script>
 
-</body>
 </html>
